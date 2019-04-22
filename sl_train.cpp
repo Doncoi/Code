@@ -1,3 +1,4 @@
+//build by Doncoi 08/11/17
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -137,7 +138,7 @@ void wheel_print(int len)
 
 void print()
 {	
-	for(int i = 1; i <= (MAXLEN << 1) - 2; ++ i)
+	for(int i = 1; i <= MAXLEN - 2; ++ i)
 	{
 		clear_screen();
 		cloud_print(i);
@@ -145,17 +146,12 @@ void print()
 		wheel_print(i);
 		//std :: cout << "len = " << i << std :: endl;
 		//Sleep(200);
-		Sleep(10);
+		Sleep(1);
 	}
 }
 
 int main()
 {
-	while(std :: cin >> operator_)
-	{
-		if(operator_[0] == 's' && operator_[1] == 'l')
-		{
-			print();
-		}
-	}
+	print();
+	return 0;
 }

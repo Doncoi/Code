@@ -1,40 +1,17 @@
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
 #include <iostream>
-#include <string>
-using namespace std;
-class Student
-{ 
-protected:
-	string name;
-	char sex;
-	int age;
-	int number;
-	string dep;
-public:
-	Student(string n,char s, int a, int num,string d)
-	{name = n; sex = s; age = a; number = num; dep = d;}
-	void display()
-	{
-		cout << " name " << name << " " << "sex" << sex << " " << "age " << age << " " << "number" << number << " " << "department" << dep << endl;
-	}
-};
-class Gradstudent : public Student
-{
-	string teacher;
-public:
-	Gradstudent(string n, char s, int a, int num, string d, string t) :Student(n, s, a, num, d)
-	{teacher = t;}
-		void display()
-		{
-			cout << " name " << name << " " << "sex" << sex << " " << "age " << age << " " << "number" << number << " " << "department" << dep <<"teacher"<<teacher<< endl;
-		}
-};
+#define MAXN 63246
+
+int T, ans;
+int sum[MAXN + 5];
+int hp_1, hp_2, at_1, at_2;
+int cnt_1, cnt_2, cnt_3, cnt_4;
+long long ans_1, ans_2;
+
 int main()
 {
-	Student s("Ann"," F", 18, 001, "computer");
-	Gradstudent g("Mike", "M", 22, 003, "math", "John");
-	s.display();
-	g.display();
-	return 0;
-
-
+	std :: cout << "Hello";
 }
+
