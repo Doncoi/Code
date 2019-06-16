@@ -1,81 +1,39 @@
-#include<iostream>
-#include<cstdio>
-#include<vector>
-#include<algorithm>
-using namespace std;
-struct str
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <algorithm>
+#define MAXN 1000000
+#define MOD 1000000007
+
+int s, a, d;
+
+int read()
 {
-    char a,b;
-    str(char i,char j)
-    {
-        a=i;
-        b=j;
-    }
-    bool t(char i,char j)
-    {
-        if(a==min(i,j)&&b==max(i,j))
-            return true;
-        return false;
-    }
-    bool cf(char i,char j)
-    {
-        if(a==i||b==i||a==j||b==j)
-            return true;
-        return false;
-    }
-};
-vector<str>s,f;
-bool chazhao(char a,char b)
-{
-    int n=s.size();
-    for(int i=0;i<n;++i)
-        if(s[i].t(a,b))
-            return true;
-    return false;
+    int res = 0, flg = 1; char chr = getchar();
+    while(chr < '0' || chr > '9') {if(chr == '-') res = -1; chr = getchar();}
+    while(chr <= '9' && chr >= '0') {res = res * 10 + chr - '0'; chr = getchar();}
+    return res * flg;
 }
-bool cha(int a,int b)
+
+long long calc()
 {
-    int n=s.size();
-    bool ok=true;
-    for(int i=0;i<n;++i)
-        if(s[i].cf(a,b))
-            return false;
-    str st(min(a,b),max(a,b));
-    s.push_back(st);
-    st.a=a,st.b=b;
-    f.push_back(st);
-    return true;
+    long long res_1, res_2, ans;
+    res_1 = d * d;
+    res_1 = res_1 * 6;
+    res_2 = a * d;
+    res_2 = res_2 * 7;
+    ans = res_1 + res_2;
+    return ans;
 }
-bool cmp(str a,str b)
-{
-    return a.a<b.a;
-}
+
 int main()
 {
-    string s1,s2;
-    cin>>s1>>s2;
-    int l=s1.length();
-    
-    bool ok=true;
-    for(int i=0;i<l;++i)
+    s = read(), d = 129, a = 0;
+    for(a = 1; a <= s / 2; ++ a)
     {
-        char a=s1[i],b=s2[i];
-        if(!chazhao(a,b))
-        {
-            if(!cha(a,b))
-            {
-                ok=false;
-                break;
-            }
-        }
+        //std :: cout << a << " " << d << std :: endl;
+        while(calc() > s) -- d;
+        if(calc() == s) std :: cout << "a = " << a << " d = " << d << " ans = " << (long long)a * a * 2 % MOD << std :: endl;
+        if(calc() < s) ++ d;
     }
-    if(ok)
-    {
-        sort(f.begin(),f.end(),cmp);
-        for(int i=0;i<f.size();i++)
-            cout<<f[i].a<<"->"<<f[i].b<<endl;
-    }
-    else
-        cout<<"Impossible"<<endl;
-    return 0;
 }
