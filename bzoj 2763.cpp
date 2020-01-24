@@ -3,94 +3,96 @@
 #include <cstring>
 #include <iostream>
 #include <algorithm>
-#define N 1200100
+#define INF 0x3f3f3f3f
+#define MAXN 1200000 + 5
 using namespace std;
-int n,m,k;
-int st,ed,cnt;
-int head[N];
-int dis[N];
-int v[N];
-struct node
+ 
+int n, m, k, s, t, cnt;
+int head[MAXN], dis[MAXN], vis[MAXN];
+ 
+struct Node
 {
-    int from,to,val,next;
-}edge[N<<1];
-struct element
+    int to, val, next;
+} edge[MAXN << 1];
+ 
+struct Dist
 {
-    int val,no;
+    int val, no;
 };
-bool operator < (element a,element b)
+ 
+bool operator < (Dist a, Dist b)
 {
-    if(a.val==b.val)return a.no<b.no;
-    return a.val>b.val;
+    if(a.val == b.val) 
+        return a.no < b.no;
+    return a.val > b.val;
 }
-priority_queue<element>q;
-void dijikstra(int s,int e)
+ 
+priority_queue<Dist> q;
+
+void Dijkstra()
 {
     memset(dis,0x3f,sizeof(dis));
-    element fir;
-    fir.val=0,fir.no=s;
-    dis[s]=0;
-    q.push(fir);
+    Dist fir;
+    fir.val=0, fir.no=s;
+    dis[s]=0; q.push(fir);
+ 
     while(!q.empty())
     {
-        element u=q.top();
-        q.pop();
-        if(v[u.no])continue;
-        v[u.no]=1;
-        for(int i=head[u.no];i!=-1;i=edge[i].next)
+        Dist u = q.top(); q.pop();
+        if(vis[u.no])continue;
+        vis[u.no] = 1;
+        for(int e = head[u.no]; e != -1; e = edge[e].next)
         {
-            int to=edge[i].to;
-            if(dis[u.no]+edge[i].val<dis[to])
+            int v = edge[e].to;
+            if(dis[u.no] + edge[e].val < dis[v])
             {
-                dis[to]=dis[u.no]+edge[i].val;
-                element pus;
-                pus.no=to,pus.val=dis[to];
+                dis[v] = dis[u.no] + edge[e].val;
+                Dist pus; pus.no = v, pus.val = dis[v];
                 q.push(pus);
             }
         }
     }
-    int ans=0x3f3f3f3f;
-    for(int i=0;i<=k;i++)
-    {
-        ans=min(ans,dis[e+i*n]);
-    }
-    printf("%d\n",ans);
+ 
+    int ans = INF;
+    for(int i = 0; i <= k; ++ i)
+        ans = min(ans, dis[t + i * n]);
+    cout << ans << endl;
 }
+ 
 void init()
 {
-    memset(head,-1,sizeof(head));
-    cnt=1;
+    memset(head, -1, sizeof(head));
+    cnt = 1;
 }
-void edgeadd(int from,int to,int val)
+ 
+void addEdge(int u, int v, int w)
 {
-    edge[cnt].from=from;
-    edge[cnt].to=to;
-    edge[cnt].val=val;
-    edge[cnt].next=head[from];
-    head[from]=cnt++;
+    edge[cnt].to = v, edge[cnt].val = w;
+    edge[cnt].next = head[u], head[u] = cnt ++;
 }
-
+ 
 int main()
 {
     init();
-    scanf("%d%d%d",&n,&m,&k);
-    scanf("%d%d",&st,&ed);
-    st++,ed++;
-    for(int i=1;i<=m;i++)
+    cin >> n >> m >> k >> s >> t;
+    s ++, t ++;
+ 
+    for(int i = 1; i <= m; ++ i)
     {
-        int x,y,z;
-        scanf("%d%d%d",&x,&y,&z);
-        x++,y++;
-        for(int i=0;i<=k;i++)
+        int u, v, w;
+        cin >> u >> v >> w;
+        u ++, v ++;
+        for(int i = 0; i <= k; ++ i)
         {
-            edgeadd(x+i*n,y+i*n,z);
-            edgeadd(y+i*n,x+i*n,z);
-            if(i!=k)
+            addEdge(u + i * n, v + i * n, w);
+            addEdge(v + i * n, u + i * n, w);
+            if(i != k)
             {
-                edgeadd(x+i*n,y+(i+1)*n,0);
-                edgeadd(y+i*n,x+(i+1)*n,0);
+                addEdge(u + i * n, v + (i + 1) * n, 0);
+                addEdge(v + i * n, u + (i + 1) * n, 0);
             }
         }
     }
-    dijikstra(st,ed);
+ 
+    Dijkstra();
 }
